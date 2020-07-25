@@ -1,0 +1,32 @@
+ADONIS ----------------------------------------------------------------------
+
+adonis new -h
+adonis new [name] --api-only
+adonis serve --dev
+adonis migration:run
+adonis make:controller [name]
+adonis make:model File -m -c
+adonis route:list
+adonis migration:rollback
+adonis migration:refresh
+adonis make:validator
+adonis make:ehandler
+adonis make:job
+adonis keu:listen
+
+SQL -------------------------------------------------------------------------
+
+
+SELECT * FROM [NAME_TABLE] : retorna todos campos de uma tabela
+
+
+POSTGRES --------------------------------------------------------------------
+
+
+\dt : listar todas as tabelas do banco de dados
+
+Redis -----------------------------------------------------------------------
+
+redis-cli
+
+
