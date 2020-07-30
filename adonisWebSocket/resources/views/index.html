@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE-edge" />
+        <title>MyChat</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    </head>
+<body>
+    <div id="content">
+        <div class="content-chat">
+            <header>
+                <div id="status"></div>
+                <h1> MyChat :) </h1>
+                <div id="iconPerfil"></div>
+            </header>
+            <section>
+                <ul>
+                    
+                </ul>
+            </section>
+            <footer> 
+                <input type="text" placeholder="Entre na conversa..." />
+            </footer> 
+        </div>
+    </div>
+    
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.10.4/polyfill.min.js"></script>
+<script src="https://unpkg.com/@adonisjs/websocket-client@1.0.9/dist/Ws.browser.js"></script>
+
+<script>
+    let ws = adonis.Ws('ws://127.0.0.1:3333').connect()
+
+    const status = document.querySelector('div#status')
+
+    ws.on('open', () => {
+        status.classList.add('online')
+    })
+
+    ws.on('error', () => {
+        status.classList.remove('online')
+    })
+
+    ws.on('close', () => {
+        status.classList.remove('online')
+    })
+
+
+    const url = new URLSearchParams(window.location.search)
+    const token =  Math.random().toString(16).substring(2)
+
+    if(url.get('token') === null ){
+        window.location.search = `?token=${token}`
+    }
+
+    const chat = ws.subscribe('chat')
+    
+    const input = document.querySelector('input')
+    const messageBox = document.querySelector('ul')
+    const iconPerfil = document.getElementById('iconPerfil')
+
+    const img = document.createElement('img')
+    img.setAttribute('src', `https://api.adorable.io/avatars/50/${token}.png`)
+
+    iconPerfil.appendChild(img)
+
+    input.addEventListener('keypress', (e) => {
+        if(e.code === 'Enter') {
+            e.preventDefault()
+            chat.emit('message', { text: input.value, token})
+            input.value = '';
+        }
+    })
+
+    chat.on('message', (data) => {
+        const li = document.createElement('li')
+        li.setAttribute('class', 'message')
+
+        if (data.token === token){
+            li.setAttribute('class', 'message my-message')
+        }else{
+            li.setAttribute('class', 'message other-message') 
+        }
+
+        li.innerHTML = `<text> <p> ${ data.text } </p> </text>`
+        messageBox.appendChild(li)
+        messageBox.scrollTop = messageBox.scrollHeight
+    })
+
+</script>
+</html>
