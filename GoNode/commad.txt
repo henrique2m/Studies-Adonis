@@ -13,11 +13,16 @@ adonis make:validator
 adonis make:ehandler
 adonis make:job
 adonis keu:listen
+adonis make:seed
+adonis seed
+adonis make:middleware [name]
+adonis acl:setup
 
 SQL -------------------------------------------------------------------------
 
 
 SELECT * FROM [NAME_TABLE] : retorna todos campos de uma tabela
+CREATE DATABASE [NAME_DATABASE] : cria uma nova base de dados
 
 
 POSTGRES --------------------------------------------------------------------
