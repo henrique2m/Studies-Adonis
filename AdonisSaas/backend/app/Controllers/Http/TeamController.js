@@ -22,7 +22,7 @@ class TeamController {
     const teamJoin = await auth.user.teamJoins().where('team_id', team.id).first()
 
 
-    await teamJoin.roles().attach([admin.id])
+    await teamJoin.roles().attach([auth.user.id])
 
     return team
   }
