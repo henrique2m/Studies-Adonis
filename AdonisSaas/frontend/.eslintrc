@@ -1,0 +1,18 @@
+{
+    "parser": "babe-eslint",
+    "extends": "airbnb",
+    "env": {
+        "browser": true,
+        "jest": true
+    },
+    "plugins": ["react", "jsx-a11y", "import"],
+    "roles": {
+        "react/jsx-filename-extension": [
+            "error", 
+            {
+                "extension": [".js", ".jsx"]
+            }
+        ],
+        "import/prefer-default-export": "off"
+    }
+}
